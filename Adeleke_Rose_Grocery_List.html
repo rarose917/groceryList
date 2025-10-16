@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en" class="h-full">
+
+<head>
+    <meta charset="UTF-8">
+    <title> Grocery List </title>
+    <script src="https://unpkg.com/vue@3"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Just+Me+Again+Down+Here&display=swap" rel="stylesheet">
+
+    <!--Styling-->
+    <style>
+        body {
+            font-family: 'Just Me Again Down Here', cursive;
+            font-size: 50px;
+            background-image: linear-gradient(to right, rgba(255,0,0,0), rgb(209, 109, 109));
+        }
+
+        h3 {
+            font-family: 'Just Me Again Down Here', cursive;
+            font-size: 75px;
+            text-align: center;
+        }
+        
+        .btnadd {
+            background-color: #df7676;
+            border: 3px solid white;
+            color: #000000;
+            font-size: 20px;
+            
+        }
+        
+        .btndelete {
+            background-color: #df7676;
+            border: 4x solid black;
+            color: #000000;
+            font-size: 20px;
+        }
+
+        table {
+            font-family: 'Just Me Again Down Here', cursive;
+            font-size: 30px;
+
+        }
+
+        th, td {
+            border: 3px solid black;
+            border-radius: 10px; 
+        }
+    </style>
+</head>
+
+<body class="d-flex justify-content-center align-items-center vh-100">
+    <div id="app" class="d-flex justify-content-center align-items-start mt-5">
+        <div class="card p-4 shadow"
+            style="max-width: 900px; width: 200%; background-color: #df9a9a; color: rgb(0, 0, 0); border-radius: 50px;">
+           
+                <h3> Grocery List Application </h3>
+
+                <form @submit.prevent="addItem" class="row g-3 mb-3 align-items-end">
+                    <div class="col-md-5">
+                        Item:
+                        <input type="text" v-model="item" class="form-control" placeholder="Enter Grocery Item here">
+                    </div>
+
+                    <div class="col-md-4">
+                        Quantity:
+                        <input type="number" v-model.number="amt" class="form-control" placeholder="Enter Amount here">
+                    </div>
+
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btnadd btn-pink shadow ">Add to List</button>
+                    </div>
+                </form>
+
+                <section>
+                    <table class="table table-bordered table-striped">
+                        <tr>
+                            <th>Item</th>
+                            <th>Amount</th>
+                            <th>Edit</th>
+                        </tr>
+                        <tr v-for=" groceries in groceries" :key="index">
+                            <td>{{ groceries.name }}</td>
+                            <td>{{ groceries.amount }}</td>
+                            <td>
+                                <form @submit.prevent="deleteItem(groceries)">
+                                    <button type="submit" class="btn btndelete btn-pink shadow">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        Vue.createApp({
+            data() {
+                return {
+                    item: '',
+                    amt: '',
+                    groceries: [],
+                }
+            },
+            methods: {
+                addItem() {
+                    this.groceries.push({
+                        name: this.item,
+                        amount: this.amt
+                    });
+                    this.item = '';
+                    this.amt = '';
+                },
+                deleteItem(index) {
+                    this.groceries.splice(index, 1);
+                }
+            }
+        }).mount('#app');
+    </script>
+
+</body>
+
+</html>
